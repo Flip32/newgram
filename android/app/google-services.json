@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "774079813779",
+    "project_id": "newgram-6aab1",
+    "storage_bucket": "newgram-6aab1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:774079813779:android:165d2be8a60b7c48cf5566",
+        "android_client_info": {
+          "package_name": "com.example.newgram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "774079813779-pej71520frcj21dj5v3fspga42fsufd8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkotIbDDIFcItzw7xGAbnEc1HIHKyq77Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "774079813779-pej71520frcj21dj5v3fspga42fsufd8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
