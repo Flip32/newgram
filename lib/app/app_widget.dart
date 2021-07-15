@@ -12,7 +12,7 @@ class AppWidget extends StatelessWidget {
       theme: ligthTheme,
       darkTheme: darkTheme,
       // Escolhe o thema a seguir
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.system,
     ).modular();
   }
 }

@@ -16,7 +16,7 @@ class AppModule extends Module {
 
   @override
   List<Bind> get binds => [
-    Bind.instance((i) =>_sharedPreferences),
+    Bind.singleton((i) =>_sharedPreferences),
     Bind.instance(_firebaseApp),
     Bind.factory((i) => FirebaseAuth.instance)
   ];
