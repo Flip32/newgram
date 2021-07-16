@@ -41,7 +41,7 @@ class OnboardingPageState extends ModularState<OnboardingPage, OnboardingStore> 
                       }, child: Text('Cadastre-se')),
                       TextButton(onPressed: (){
                         store.markOnbordingDone();
-                        Modular.to.pushReplacementNamed('/home');
+                        Modular.to.pushReplacementNamed('/login');
                       }, child: Text('Já tem cadastro?'))
                     ],
                 )

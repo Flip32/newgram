@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'modules/home/home_module.dart';
 import 'modules/onboarding/onboarding_module.dart';
 import 'modules/register/register_module.dart';
+import 'modules/login/login_module.dart';
 
 class AppModule extends Module {
 
@@ -25,8 +26,9 @@ class AppModule extends Module {
   late final List<ModularRoute> routes = [
     ModuleRoute('/', module: _initialModule()),
     ModuleRoute('/onborading', module: OnboardingModule()),
-    ModuleRoute('/register', module: RegisterModule()),
+    ModuleRoute('/register', module: RegisterModule(), transition: TransitionType.rotate),
     ModuleRoute('/home', module: HomeModule()),
+    ModuleRoute('/login', module: LoginModule(), transition: TransitionType.scale),
   ];
 
   Module _initialModule(){
