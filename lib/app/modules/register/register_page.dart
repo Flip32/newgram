@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:mobx/mobx.dart';
+import 'package:newgram/app/modules/register/register_store.dart';
 
 class RegisterPage extends StatefulWidget {
   final String title;
@@ -6,13 +10,15 @@ class RegisterPage extends StatefulWidget {
   @override
   RegisterPageState createState() => RegisterPageState();
 }
-class RegisterPageState extends State<RegisterPage> {
+class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
 
   late PageController _pageController;
 
   late final TextEditingController _nameController;
   late final TextEditingController _emailController;
   late final TextEditingController _passController;
+
+  late final ReactionDisposer _disposer;
 
   @override
   void initState() {// TODO: implement initState
@@ -22,7 +28,45 @@ class RegisterPageState extends State<RegisterPage> {
     _nameController = TextEditingController();
     _emailController = TextEditingController();
     _passController = TextEditingController();
+    
+    _disposer = when((_) => store.user != null , () => Modular.to.pushReplacementNamed('/home'));
+
   }
+
+  @override
+  void dispose() {
+    _disposer();
+    super.dispose();
+  }
+
+  late final Widget _form = PageView(
+    controller: _pageController,
+    physics: NeverScrollableScrollPhysics(),
+    scrollDirection: Axis.vertical,
+    children: <Widget>[
+      _FormField(
+        controller: _nameController,
+        label: 'Qual é o seu nome?',
+        showBackButton: false,
+        onNext: () { _pageController.nextPage(duration: Duration(seconds: 1), curve: Curves.easeOut); },
+        onBack: () { },
+      ),
+      _FormField(
+        controller: _emailController,
+        label: 'Qual é o seu melhor email?',
+        showBackButton: true,
+        onNext: () { _pageController.nextPage(duration: Duration(seconds: 1), curve: Curves.easeOut); },
+        onBack: () { _pageController.previousPage(duration: Duration(seconds: 1), curve: Curves.easeOut); },
+      ),
+      _FormField(/**/
+        controller: _passController,
+        label: 'Crie sua senha',
+        showBackButton: true,
+        onNext: () { store.registerUser(name: _nameController.text, email: _emailController.text, password: _passController.text); },
+        onBack: () { _pageController.previousPage(duration: Duration(seconds: 1), curve: Curves.easeOut); },
+      )
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -30,34 +74,23 @@ class RegisterPageState extends State<RegisterPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: PageView(
-        controller: _pageController,
-        physics: NeverScrollableScrollPhysics(),
-        scrollDirection: Axis.vertical,
-        children: <Widget>[
-          _FormField(
-              controller: _nameController,
-              label: 'Qual é o seu nome?',
-              showBackButton: false,
-            onNext: () { _pageController.nextPage(duration: Duration(seconds: 1), curve: Curves.easeOut); },
-            onBack: () { },
-          ),
-          _FormField(
-              controller: _emailController,
-              label: 'Qual é o seu melhor email?',
-              showBackButton: true,
-            onNext: () { _pageController.nextPage(duration: Duration(seconds: 1), curve: Curves.easeOut); },
-            onBack: () { _pageController.previousPage(duration: Duration(seconds: 1), curve: Curves.easeOut); },
-          ),
-          _FormField(/**/
-              controller: _passController,
-              label: 'Crie sua senha',
-              showBackButton: true,
-            onNext: () {  },
-            onBack: () { _pageController.previousPage(duration: Duration(seconds: 1), curve: Curves.easeOut); },
-          )
-        ],
-      ),
+      body: Observer(
+        builder: (_) {
+          if(store.loading){
+            return Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+                Text('Salvando...')
+              ],
+            );
+          } else {
+            return _form;
+          }
+        },
+      )
     );
   }
 }

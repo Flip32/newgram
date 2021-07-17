@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:mobx/mobx.dart';
 import 'home_store.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,6 +13,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends ModularState<HomePage, HomeStore> {
+
+  late final ReactionDisposer _disposer;
+
+  @override
+  void initState(){
+    super.initState();
+
+    _disposer = when((_) => store.user != null , () => Modular.to.pushReplacementNamed('/home'));
+
+  }
+
+  @override
+  void dispose() {
+    _disposer();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,11 +38,11 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
         title: Text('Counter'),
       ),
       body: Observer(
-        builder: (context) => Text('${store.counter}'),
+        builder: (context) => Text('Você está logado ${store.user?.displayName}'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          store.increment();
+          store.logout();
         },
         child: Icon(Icons.add),
       ),

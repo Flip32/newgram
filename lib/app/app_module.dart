@@ -27,17 +27,38 @@ class AppModule extends Module {
     ModuleRoute('/', module: _initialModule()),
     ModuleRoute('/onborading', module: OnboardingModule()),
     ModuleRoute('/register', module: RegisterModule(), transition: TransitionType.rotate),
-    ModuleRoute('/home', module: HomeModule()),
+    ModuleRoute('/home', module: HomeModule(), guards: [_FirebaseAuthGuard()]),
     ModuleRoute('/login', module: LoginModule(), transition: TransitionType.scale),
   ];
 
+
+
   Module _initialModule(){
     final onboardingDone = _sharedPreferences.getBool(Constants.SPK_ONBOARDING_DONE) ?? false;
+    final registerDone = _sharedPreferences.getBool(Constants.SPK_REGISTER_DONE) ?? false;
     if(onboardingDone){
-      return RegisterModule();
+
+      if(registerDone){/**/
+        if((FirebaseAuth.instance.currentUser?.isAnonymous ?? true)) {
+          return LoginModule();
+        } else {
+          return HomeModule();
+        }
+      } else {
+        return RegisterModule();
+      }
     } else {
       return OnboardingModule();
     }
   }
 
+}
+
+class _FirebaseAuthGuard extends RouteGuard {
+  _FirebaseAuthGuard() : super(null);
+
+  @override
+  Future<bool> canActivate(String path, ModularRoute router){
+    return Future.value(!(FirebaseAuth.instance.currentUser?.isAnonymous ?? true));
+  }
 }
