@@ -74,6 +74,12 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Modular.to.pushReplacementNamed('/login');
+          },
+          child: Icon(Icons.login),
+        ),
       body: Observer(
         builder: (_) {
           if(store.loading){

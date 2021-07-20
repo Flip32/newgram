@@ -8,12 +8,12 @@ class HomeStore = HomeStoreBase with _$HomeStore;
 abstract class HomeStoreBase with Store {
 
   FirebaseAuth _firebaseAuth;
-  HomeStoreBase(this._firebaseAuth){
+    HomeStoreBase(this._firebaseAuth){
     _firebaseAuth.authStateChanges().listen(_onAuthChange);
   }
 
   @observable
-  User? user;
+  late User? user = _firebaseAuth.currentUser;
 
   @action
   void _onAuthChange(User? user){

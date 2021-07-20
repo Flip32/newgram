@@ -32,9 +32,9 @@ abstract class _RegisterStoreBase with Store {
   @action
   Future<void> registerUser({ required String name, required String email, required String password }) async {
     loading = true;
-    final credetial = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+    final credential = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
     firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-    await credetial.user?.updateDisplayName(name);
+    await credential.user?.updateDisplayName(name);
     sharedPreferences.setBool(Constants.SPK_REGISTER_DONE, true);
     loading = false;
   }

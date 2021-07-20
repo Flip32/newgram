@@ -20,7 +20,7 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
   void initState(){
     super.initState();
 
-    _disposer = when((_) => store.user != null , () => Modular.to.pushReplacementNamed('/home'));
+    _disposer = when((_) => store.user == null , () => Modular.to.pushReplacementNamed('/login'));
 
   }
 
@@ -35,7 +35,7 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Counter'),
+        title: Text('Home'),
       ),
       body: Observer(
         builder: (context) => Text('Você está logado ${store.user?.displayName}'),
@@ -44,7 +44,7 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
         onPressed: () {
           store.logout();
         },
-        child: Icon(Icons.add),
+        child: Icon(Icons.logout),
       ),
     );
   }
