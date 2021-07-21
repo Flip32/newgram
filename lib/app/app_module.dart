@@ -27,8 +27,8 @@ class AppModule extends Module {
     ModuleRoute('/', module: _initialModule()),
     ModuleRoute('/onborading', module: OnboardingModule()),
     ModuleRoute('/register', module: RegisterModule(), transition: TransitionType.rotate),
-    ModuleRoute('/home', module: HomeModule(), guards: [_FirebaseAuthGuard()]),
     ModuleRoute('/login', module: LoginModule(), transition: TransitionType.scale),
+    ModuleRoute('/home', module: HomeModule(), guards: [_FirebaseAuthGuard()]),
   ];
 
 

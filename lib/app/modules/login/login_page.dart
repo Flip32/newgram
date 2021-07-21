@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:newgram/app/modules/login/login_store.dart';
 import 'package:mobx/mobx.dart';
 
 class LoginPage extends StatefulWidget {
   final String title;
-  const LoginPage({Key? key, this.title = 'LoginPage'}) : super(key: key);
+  const LoginPage({Key? key, this.title = 'Faça seu login'}) : super(key: key);
   @override
   LoginPageState createState() => LoginPageState();
 }
@@ -52,10 +53,12 @@ class LoginPageState extends ModularState<LoginPage, LoginStore> {
           // mainAxisSize: MainAxisSize.max,
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: 20,),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 32),
-              child: Image.asset('assets/', fit: BoxFit.fitWidth),
+              padding: EdgeInsets.symmetric(horizontal: 120),
+              child: Image.asset('assets/logo.png', fit: BoxFit.fitWidth),
             ),
+            SizedBox(height: 20,),
             TextFormField(
               controller: _emailController,
               decoration: InputDecoration(
@@ -76,10 +79,23 @@ class LoginPageState extends ModularState<LoginPage, LoginStore> {
                 onPressed: (){
                   store.login(email: _emailController.text, password: _passController.text);
                 },
-                child: Text('ACESSAR')
+                child: Observer(
+                  builder: (_)  {
+                    if(store.loading) {
+                      return Transform.scale(
+                          scale: 0.5,
+                          child: CircularProgressIndicator(color: Theme.of(context).buttonColor)
+                      );
+                    } else {
+                      return Text('ACESSAR');
+                    }
+                  }
+                )
             ),
             TextButton(
-                onPressed: (){},
+                onPressed: (){
+                  Modular.to.pushNamed('/login/forgot-password');
+                },
                 child: Text('Esqueceu a senha')
             )
           ],

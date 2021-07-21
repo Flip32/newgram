@@ -47,6 +47,15 @@ mixin _$LoginStore on _LoginStoreBase, Store {
         .run(() => super.login(email: email, password: password));
   }
 
+  final _$passwordRecoverAsyncAction =
+      AsyncAction('_LoginStoreBase.passwordRecover');
+
+  @override
+  Future<void> passwordRecover({required String email}) {
+    return _$passwordRecoverAsyncAction
+        .run(() => super.passwordRecover(email: email));
+  }
+
   final _$_LoginStoreBaseActionController =
       ActionController(name: '_LoginStoreBase');
 

@@ -34,4 +34,12 @@ abstract class _LoginStoreBase with Store {
     await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
     loading = false;
   }
+
+  @action
+  Future<void> passwordRecover({ required String email}) async {
+    loading = true;
+    await _firebaseAuth.sendPasswordResetEmail(email: email);
+    loading = false;
+  }
+
 }

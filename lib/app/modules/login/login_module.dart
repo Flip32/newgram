@@ -13,7 +13,9 @@ class LoginModule extends Module {
   @override
   final List<ModularRoute> routes = [
     ChildRoute(Modular.initialRoute, child: (_, args) => LoginPage()),
-    ChildRoute('/login/forgot-password',
-        child: (_, args) => ForgotPasswordPage())
+    ChildRoute('/forgot-password',
+        child: (_, args) => ForgotPasswordPage(),
+        transition: TransitionType.rightToLeftWithFade
+    )
   ];
 }
