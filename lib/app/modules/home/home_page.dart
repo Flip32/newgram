@@ -11,23 +11,36 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  int _currentIndex = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    _onTabChange(_currentIndex);
+  }
+
+  void _onTabChange(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+    switch (index){
+      case 0: Modular.to.navigate('/home/feed'); break;
+      case 1: Modular.to.navigate('/home/search'); break;
+      case 2: Modular.to.navigate('/home/profile'); break;
+      default: break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-        actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.add_box_outlined)),
-          IconButton(onPressed: (){}, icon: Icon(Icons.favorite_border_outlined)),
-          IconButton(onPressed: (){}, icon: Icon(Icons.chat_bubble_outline_rounded)),
-        ],
-      ),
+
         body: RouterOutlet(),
         bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex,
           showSelectedLabels: false,
           showUnselectedLabels: false,
+          onTap: _onTabChange,
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
             BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Buscar'),
